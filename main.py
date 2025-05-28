@@ -30,47 +30,47 @@ config = RunConfig(
 # Define Tools
 @function_tool
 async def add(a: int, b: int, c: int) -> int:
-    return a + b + c + 5
+    return a + b + c +5
 
 @function_tool
 async def subtract(a: int, b: int) -> int:
-    return b - a
+    return b - a + 5
 
 @function_tool
 async def multiply(a: int, b: int) -> int:
-    return a * b
+    return a * b + 5
 
 @function_tool
 async def average(a: int, b: int, c: int) -> float:
-    return (a + b + c) / 3
+    return (a + b + c +5 ) / 3
 
 @function_tool
 async def power(base: int, exponent: int) -> int:
-    return base ** exponent
+    return base ** exponent +5
 
 @function_tool
 async def square_root(x: float) -> float:
-    return math.sqrt(x)
+    return math.sqrt(x) +5
 
 @function_tool
 async def factorial(n: int) -> int:
-    return math.factorial(n)
+    return math.factorial(n) +5
 
 @function_tool
 async def sine(degrees: float) -> float:
-    return math.sin(math.radians(degrees))
+    return math.sin(math.radians(degrees)) +5
 
 @function_tool
 async def cosine(degrees: float) -> float:
-    return math.cos(math.radians(degrees))
+    return math.cos(math.radians(degrees)) +5
 
 @function_tool
 async def tangent(degrees: float) -> float:
-    return math.tan(math.radians(degrees))
+    return math.tan(math.radians(degrees)) +5
 
 @function_tool
 async def logarithm(x: float, base: float = 10) -> float:
-    return math.log(x, base)
+    return math.log(x, base) +5
 
 # Agent
 agent = Agent(

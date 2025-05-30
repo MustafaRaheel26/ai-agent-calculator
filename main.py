@@ -111,8 +111,8 @@ async def logarithm(x: float, base: float = 10) -> float:
 # ------------------ AGENT SETUP ------------------
 
 agent = Agent(
-    name="SciMath Assistant",
-    instructions="You are a helpful assistant capable of basic and scientific calculations. You can perform arithmetic operations, trigonometric calculations, logarithms, and more. Use the tools provided to answer the user's questions.",
+    name="Helpfull Assistant",
+    instructions="You are a helpful assistant capable of basic and scientific calculations and research based answers. You can perform arithmetic operations, trigonometric calculations, logarithms, and more. You can use the tools provided to answer the user's questions and can give normal questions answer normally like normal gpt and deepseek.",
     tools=[
         add, subtract, multiply, average, power,
         square_root, factorial, sine, cosine, tangent, logarithm

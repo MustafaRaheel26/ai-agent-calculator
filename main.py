@@ -198,13 +198,43 @@ agent_instructions = (
 )
 
 agent = Agent(
-    name="SciMath Assistant",
-    instructions="You are a helpful assistant capable of basic and scientific calculations. You can perform arithmetic operations, trigonometric calculations, logarithms, and more. Use the tools provided to answer the user's questions.",
-    tools=[
-        add, subtract, multiply, average, power,
-        square_root, factorial, sine, cosine, tangent, logarithm
-    ]
+    name="Property Insights Assistant",
+    instructions=agent_instructions,
+    tools=[search_properties, get_price_by_id, summarize_results]
 )
+
+# -------------------- SESSION MEMORY (persistent, no timeout, unlimited) --------------------
+conversation_history: List[Dict[str, Any]] = []  # each item: {"role":"user"/"assistant","content":str,"ts":unix_ts}
+
+def append_memory(role: str, content: str):
+    global conversation_history
+    conversation_history.append({"role": role, "content": content, "ts": time.time()})
+    # No trimming: keep all history until explicitly cleared
+
+def clear_memory():
+    global conversation_history
+    conversation_history = []
+
+def build_context_text() -> str:
+    """
+    Build a plaintext context to prepend to user's new message. This helps the LLM
+    resolve follow-ups using the entire conversation history.
+    """
+    if not conversation_history:
+        return ""
+    lines = []
+    for entry in conversation_history:
+        role = entry["role"]
+        lines.append(f"{role.upper()}: {entry['content']}")
+    return "CONTEXT:\n" + "\n".join(lines) + "\n\n"
+
+# -------------------- GUARDRAIL (quick check before contacting model) --------------------
+def is_property_query(query: str) -> bool:
+    hints = ["rent", "sale", "buy", "sell", "price", "property", "plot", "villa", "flat", "apartment",
+             "bedroom", "bedrooms", "for rent", "for sale", "sq", "sqy", "precinct", "id", "propid", "karachi",
+             "lahore", "bahria", "house", "commercial", "residential", "office", "shop", "plot"]
+    q = query.lower()
+    return any(h in q for h in hints)
 
 # -------------------- TOP-LEVEL LOOP (Streamlit app) --------------------
 st.set_page_config(page_title="Ali — Property Insights Assistant", layout="wide")
